@@ -1,0 +1,1865 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Корни — движение за planeту без мусора</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sand: #F6F1E7;
+    --sand-deep: #ECE6D2;
+    --ink: #24291E;
+    --moss: #5B6B4D;
+    --moss-deep: #3E4A32;
+    --fern: #7C9A5C;
+    --fern-deep: #4F6B3A;
+    --pine: #29372A;
+    --clay: #B5652E;
+    --clay-deep: #8f4f22;
+    --tan: #8C7A5C;
+    --line: rgba(43,42,31,0.14);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--sand);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+    overflow-x:hidden;
+    padding-top:88px;
+  }
+
+  ::selection{ background:var(--fern-deep); color:var(--sand); }
+
+  h1,h2,h3,.serif{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    letter-spacing:-0.01em;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+
+  img{ max-width:100%; display:block; }
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 40px;
+  }
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{
+    outline:2px solid var(--fern-deep);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+  }
+
+  /* ---------- hero entrance animation ---------- */
+  .hero h1 .hero-line{
+    display:block;
+    overflow:hidden;
+  }
+  .hero h1 .hero-line-inner{
+    display:inline-block;
+    transform:translateY(115%);
+    opacity:0;
+    transition:transform 0.9s cubic-bezier(0.16,1,0.3,1), opacity 0.6s ease;
+  }
+  html:not(.is-loading) .hero h1 .hero-line-inner{ opacity:1; transform:translateY(0); }
+  html:not(.is-loading) .hero h1 .hero-line:nth-child(1) .hero-line-inner{ transition-delay:0.05s; }
+  html:not(.is-loading) .hero h1 .hero-line:nth-child(2) .hero-line-inner{ transition-delay:0.16s; }
+  html:not(.is-loading) .hero h1 .hero-line:nth-child(3) .hero-line-inner{ transition-delay:0.27s; }
+
+  .hero .lede,
+  .hero-actions,
+  .hero-fact{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+  }
+  html:not(.is-loading) .hero .lede{ opacity:0.82; transform:translateY(0); transition-delay:0.45s; }
+  html:not(.is-loading) .hero-actions{ opacity:1; transform:translateY(0); transition-delay:0.6s; }
+  html:not(.is-loading) .hero-fact{ opacity:1; transform:translateY(0); transition-delay:0.75s; }
+
+  .hero-actions .btn-primary,
+  .hero-actions .btn-ghost{
+    opacity:0;
+    transform:translateY(14px) scale(0.96);
+    transition:opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
+  }
+  html:not(.is-loading) .hero-actions .btn-primary{ opacity:1; transform:translateY(0) scale(1); transition-delay:0.65s; }
+  html:not(.is-loading) .hero-actions .btn-ghost{ opacity:1; transform:translateY(0) scale(1); transition-delay:0.75s; }
+
+  .hero-fact .num{
+    display:inline-block;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .hero h1 .hero-line-inner,
+    .hero .lede, .hero-actions, .hero-fact,
+    .hero-actions .btn-primary, .hero-actions .btn-ghost{
+      opacity:1 !important; transform:none !important; transition:none !important;
+    }
+  }
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal.is-visible{ opacity:1; transform:translateY(0); }
+
+  .reveal-stagger > *{
+    opacity:0;
+    transform:translateY(22px);
+    transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal-stagger.is-visible > *{ opacity:1; transform:translateY(0); }
+  .reveal-stagger.is-visible > *:nth-child(1){ transition-delay:0.03s; }
+  .reveal-stagger.is-visible > *:nth-child(2){ transition-delay:0.11s; }
+  .reveal-stagger.is-visible > *:nth-child(3){ transition-delay:0.19s; }
+  .reveal-stagger.is-visible > *:nth-child(4){ transition-delay:0.27s; }
+  .reveal-stagger.is-visible > *:nth-child(5){ transition-delay:0.35s; }
+  .reveal-stagger.is-visible > *:nth-child(6){ transition-delay:0.43s; }
+  .reveal-stagger.is-visible > *:nth-child(7){ transition-delay:0.51s; }
+  .reveal-stagger.is-visible > *:nth-child(8){ transition-delay:0.59s; }
+
+  /* индивидуальная задержка для .reveal-row — соседние повторяющиеся блоки
+     (принципы, таймлайн, отзывы), где каждый элемент наблюдается отдельно */
+  .reveal-row{
+    opacity:0;
+    transform:translateY(26px);
+    transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal-row.is-visible{ opacity:1; transform:translateY(0); }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal, .reveal-stagger > *, .reveal-row{ opacity:1 !important; transform:none !important; transition:none !important; }
+  }
+
+  /* ---------- плавное увеличение картинок/блоков при появлении ---------- */
+  .reveal-scale{
+    opacity:0;
+    transform:scale(0.96);
+    transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal-scale.is-visible{ opacity:1; transform:scale(1); }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal-scale{ opacity:1 !important; transform:none !important; transition:none !important; }
+  }
+
+  /* ---------- построчная анимация текста (заголовки и абзацы) ---------- */
+  .reveal-lines{
+    overflow:hidden;
+    display:block;
+  }
+  .reveal-lines .line-inner{
+    display:inline-block;
+    max-width:100%;
+    transform:translateY(115%);
+    transition:transform 0.85s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal-lines.is-visible .line-inner{ transform:translateY(0); }
+
+  /* задержка по строкам внутри одного блока */
+  .reveal-lines .line:nth-child(1) .line-inner{ transition-delay:0.02s; }
+  .reveal-lines .line:nth-child(2) .line-inner{ transition-delay:0.10s; }
+  .reveal-lines .line:nth-child(3) .line-inner{ transition-delay:0.18s; }
+  .reveal-lines .line:nth-child(4) .line-inner{ transition-delay:0.26s; }
+  .reveal-lines .line:nth-child(5) .line-inner{ transition-delay:0.34s; }
+  .reveal-lines .line:nth-child(6) .line-inner{ transition-delay:0.42s; }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal-lines .line-inner{ transform:none !important; transition:none !important; }
+  }
+
+  /* ---------- текст "проявляется" из тусклого в чёткий ---------- */
+  .reveal-fade{
+    opacity:0;
+    color:var(--tan);
+    filter:blur(2px);
+    transition:opacity 0.9s cubic-bezier(0.16,1,0.3,1), color 0.9s cubic-bezier(0.16,1,0.3,1), filter 0.9s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal-fade.is-visible{
+    opacity:1;
+    color:var(--ink);
+    filter:blur(0);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal-fade{ opacity:1 !important; color:var(--ink) !important; filter:none !important; transition:none !important; }
+  }
+
+  /* ---------- пословное появление (слово за словом) ---------- */
+  .reveal-words .word{
+    display:inline-block;
+    opacity:0;
+    transform:translateY(0.4em);
+    filter:blur(3px);
+    transition:opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
+  }
+  .reveal-words.is-visible .word{
+    opacity:1;
+    transform:translateY(0);
+    filter:blur(0);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal-words .word{ opacity:1 !important; transform:none !important; filter:none !important; transition:none !important; }
+  }
+
+  /* ---------- мелкие подписи / метки — простой fade+small slide ---------- */
+  .reveal-tag{
+    opacity:0;
+    transform:translateY(10px);
+    transition:opacity 0.55s ease, transform 0.55s ease;
+  }
+  .reveal-tag.is-visible{ opacity:1; transform:translateY(0); }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal-tag{ opacity:1 !important; transform:none !important; transition:none !important; }
+  }
+
+  /* ---------- карточки — небольшой поворот + подъём ---------- */
+  .reveal-card{
+    opacity:0;
+    transform:translateY(24px) rotate(-0.6deg);
+    transition:opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal-card.is-visible{ opacity:1; transform:translateY(0) rotate(0deg); }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal-card{ opacity:1 !important; transform:none !important; transition:none !important; }
+  }
+
+  /* ---------- карточки городов: более выразительное появление ---------- */
+  .reveal-city{
+    opacity:0;
+    transform:translateY(40px) scale(0.88);
+    transition:opacity 0.7s cubic-bezier(0.34,1.4,0.4,1), transform 0.7s cubic-bezier(0.34,1.4,0.4,1), background 0.5s ease, box-shadow 0.5s ease;
+    position:relative;
+  }
+  .reveal-city.is-visible{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+  /* короткая вспышка фона в момент приземления карточки */
+  .reveal-city::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:var(--fern);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.15s ease 0.55s, opacity 0.6s ease 0.7s;
+  }
+  .reveal-city.is-visible::after{
+    opacity:0.16;
+    transition:opacity 0.15s ease 0.55s;
+  }
+  .reveal-city.is-visible.flash-done::after{
+    opacity:0;
+    transition:opacity 0.6s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal-city{ opacity:1 !important; transform:none !important; transition:none !important; }
+    .reveal-city::after{ display:none; }
+  }
+
+  /* ---------- лёгкий параллакс для фонового svg в hero ---------- */
+  .root-vein{
+    will-change:transform;
+    transition:transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  }
+  @media (prefers-reduced-motion: reduce){
+    .root-vein{ transition:none; }
+  }
+
+  /* ---------- прогресс-бар прочтения страницы ---------- */
+  .scroll-progress{
+    position:fixed;
+    top:0; left:0;
+    height:3px;
+    width:0%;
+    background:linear-gradient(90deg, var(--fern), var(--clay));
+    z-index:1001;
+    transition:width 0.1s linear;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .scroll-progress{ transition:none; }
+  }
+
+  /* ---------- root vein background element ---------- */
+  .root-vein{
+    position:absolute;
+    top:0; left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:0;
+  }
+  .root-vein path{
+    fill:none;
+    stroke:var(--fern-deep);
+    stroke-width:1.5;
+    opacity:0.45;
+    stroke-dasharray:2600;
+    stroke-dashoffset:2600;
+    animation:draw 3.6s ease-out forwards 0.2s;
+  }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+
+  .root-vein .leaf-node{
+    stroke:none;
+    fill:var(--fern);
+    opacity:0;
+    stroke-dasharray:none;
+    animation:leafIn 0.9s ease-out forwards 3.4s;
+  }
+  @keyframes leafIn{ to{ opacity:0.5; } }
+
+  @media (prefers-reduced-motion: reduce){
+    .root-vein path{ stroke-dashoffset:0; animation:none; }
+    .root-vein .leaf-node{ opacity:0.5; }
+  }
+
+  /* ---------- preloader ---------- */
+  html.is-loading{ overflow:hidden; }
+
+  .preloader{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--pine);
+    transition:opacity 0.7s ease, visibility 0.7s ease;
+  }
+  .preloader.is-hidden{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+  }
+
+  .preloader-inner{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:22px;
+  }
+
+  .preloader-mark{
+    width:64px;
+    height:88px;
+    overflow:visible;
+  }
+  .preloader-mark .p-trunk{
+    fill:none;
+    stroke:var(--sand);
+    stroke-width:1.6;
+    stroke-linecap:round;
+    stroke-dasharray:82;
+    stroke-dashoffset:82;
+    animation:preloaderGrow 1.5s cubic-bezier(0.65,0,0.35,1) forwards 0.15s;
+  }
+  .preloader-mark .p-branch{
+    fill:none;
+    stroke:var(--fern);
+    stroke-width:1.4;
+    stroke-linecap:round;
+    animation:preloaderGrow 0.9s ease-out forwards;
+  }
+  .preloader-mark .p-branch-a{ stroke-dasharray:29; stroke-dashoffset:29; animation-delay:0.85s; }
+  .preloader-mark .p-branch-b{ stroke-dasharray:18; stroke-dashoffset:18; animation-delay:0.95s; }
+  .preloader-mark .p-bud{
+    stroke:none;
+    fill:var(--clay);
+    opacity:0;
+    transform:scale(0.3);
+    transform-origin:center;
+    transform-box:fill-box;
+    animation:preloaderBud 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards 1.5s;
+  }
+  @keyframes preloaderGrow{ to{ stroke-dashoffset:0; } }
+  @keyframes preloaderBud{ to{ opacity:1; transform:scale(1); } }
+
+  .preloader-word{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:15px;
+    letter-spacing:0.02em;
+    color:var(--sand);
+    opacity:0;
+    animation:preloaderWord 0.8s ease-out forwards 1.4s;
+  }
+  @keyframes preloaderWord{ to{ opacity:0.78; } }
+
+  .preloader-track{
+    width:120px;
+    height:1px;
+    background:rgba(246,241,231,0.18);
+    overflow:hidden;
+  }
+  .preloader-track::before{
+    content:'';
+    display:block;
+    width:100%;
+    height:100%;
+    background:var(--fern);
+    transform:translateX(-100%);
+    animation:preloaderTrack 2.1s cubic-bezier(0.65,0,0.35,1) forwards 0.1s;
+  }
+  @keyframes preloaderTrack{ to{ transform:translateX(0); } }
+
+  @media (prefers-reduced-motion: reduce){
+    .preloader{ transition:opacity 0.25s ease, visibility 0.25s ease; }
+    .preloader-mark .p-trunk, .preloader-mark .p-branch{ stroke-dashoffset:0; animation:none; }
+    .preloader-mark .p-bud{ opacity:1; transform:scale(1); animation:none; }
+    .preloader-word{ opacity:0.78; animation:none; }
+    .preloader-track::before{ transform:translateX(0); animation:none; }
+  }
+
+  /* ---------- header / nav ---------- */
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    padding:20px 0;
+    background:transparent;
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+    border-bottom:1px solid transparent;
+    transition:background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
+  }
+  header.is-scrolled{
+    background:rgba(246,241,231,0.9);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  header.menu-open{
+    background:var(--sand);
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+    border-bottom:1px solid transparent;
+  }
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .logo{
+    font-family:'Fraunces', serif;
+    font-size:22px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .logo svg{ width:26px; height:26px; }
+  .nav-logo-mobile{ display:none; }
+  .nav-links{
+    display:flex;
+    gap:26px;
+    font-size:14.5px;
+  }
+  .nav-links a{
+    position:relative;
+    padding-bottom:4px;
+  }
+  .nav-links a::after{
+    content:'';
+    position:absolute;
+    left:0; bottom:0;
+    width:0%;
+    height:1px;
+    background:var(--fern-deep);
+    transition:width 0.3s ease;
+  }
+  .nav-links a:hover::after{ width:100%; }
+
+  .nav-cta{
+    background:var(--fern-deep);
+    color:var(--sand);
+    padding:10px 22px;
+    border-radius:100px;
+    font-size:14px;
+    font-weight:500;
+    transition:background 0.25s ease, transform 0.25s ease;
+    display:inline-block;
+  }
+  .nav-cta:hover{ background:var(--pine); transform:translateY(-1px); }
+
+  .nav-toggle{ display:none; }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:110px 0 90px;
+    z-index:1;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.35fr 0.9fr;
+    gap:60px;
+    align-items:end;
+  }
+  .hero h1{
+    font-size:clamp(42px, 6vw, 78px);
+    line-height:1.02;
+    max-width:15ch;
+  }
+  .hero .lede{
+    margin-top:28px;
+    max-width:46ch;
+    font-size:19px;
+    color:var(--ink);
+  }
+  .hero-actions{
+    margin-top:40px;
+    display:flex;
+    gap:18px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .btn-primary{
+    background:var(--fern-deep);
+    color:var(--sand);
+    padding:15px 30px;
+    border-radius:100px;
+    font-size:15.5px;
+    font-weight:500;
+    display:inline-block;
+    transition:background 0.25s ease, transform 0.25s ease;
+  }
+  .btn-primary:hover{ background:var(--pine); transform:translateY(-4px) scale(1.03); box-shadow:0 12px 24px -8px rgba(62,74,50,0.45); }
+  .btn-ghost{
+    padding:15px 6px;
+    font-size:15.5px;
+    font-weight:500;
+    border-bottom:1px solid var(--ink);
+    transition:opacity 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+  }
+  .btn-ghost:hover{ opacity:0.7; transform:translateX(3px); }
+
+  .hero-fact{
+    position:relative;
+    padding:30px 0 0 28px;
+    border-left:1px solid var(--line);
+  }
+  .hero-fact .num{
+    font-family:'Fraunces', serif;
+    font-size:64px;
+    font-weight:400;
+    font-style:italic;
+    color:var(--moss-deep);
+    line-height:1;
+  }
+  .hero-fact p{
+    margin-top:14px;
+    font-size:15px;
+    max-width:28ch;
+    color:var(--ink);
+    opacity:0.75;
+  }
+
+  /* ---------- manifest ---------- */
+  .manifest{
+    position:relative;
+    padding:100px 0;
+    background:var(--sand-deep);
+    z-index:1;
+  }
+  .manifest-grid{
+    display:grid;
+    grid-template-columns:0.85fr 1.15fr;
+    gap:80px;
+  }
+  .manifest-label{
+    font-size:15px;
+    color:var(--tan);
+    max-width:22ch;
+  }
+  .manifest h2{
+    font-size:clamp(28px, 3.4vw, 40px);
+    margin-top:18px;
+    line-height:1.18;
+    max-width:16ch;
+  }
+  .manifest-body p{
+    font-size:18px;
+    max-width:62ch;
+    margin-bottom:22px;
+    color:var(--ink);
+  }
+  .manifest-body p:first-child{
+    font-size:22px;
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    line-height:1.4;
+  }
+  .callout{
+    margin-top:36px;
+    padding:26px 0 0;
+    border-top:1px solid var(--line);
+    display:flex;
+    gap:40px;
+    flex-wrap:wrap;
+  }
+  .callout div{ flex:1; min-width:200px; }
+  .callout .num{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:34px;
+    color:var(--clay);
+  }
+  .callout p{ font-size:14.5px; margin-top:8px; color:var(--ink); opacity:0.75; max-width:26ch; }
+
+  /* ---------- principles ---------- */
+  .principles{
+    position:relative;
+    padding:110px 0;
+    z-index:1;
+  }
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:40px;
+    margin-bottom:70px;
+  }
+  .section-head h2{
+    font-size:clamp(30px, 3.6vw, 44px);
+    max-width:12ch;
+    line-height:1.12;
+  }
+  .section-head p{
+    max-width:34ch;
+    font-size:16px;
+    color:var(--ink);
+    opacity:0.72;
+    padding-bottom:6px;
+  }
+
+  .principle-row{
+    display:grid;
+    grid-template-columns:0.5fr 1fr 1fr;
+    gap:40px;
+    padding:38px 0;
+    border-top:1px solid var(--line);
+    align-items:start;
+  }
+  .principle-row:last-child{ border-bottom:1px solid var(--line); }
+  .principle-row .p-name{
+    font-family:'Fraunces', serif;
+    font-size:26px;
+    font-style:italic;
+  }
+  .principle-row .p-desc{ font-size:16px; opacity:0.85; }
+  .principle-row .p-detail{ font-size:15px; color:var(--tan); }
+  .principle-row:hover{ background:rgba(124,154,92,0.08); }
+
+  /* ---------- timeline ---------- */
+  .timeline{
+    position:relative;
+    padding:110px 0;
+    background:var(--pine);
+    color:var(--sand);
+    z-index:1;
+  }
+  .timeline .section-head h2{ color:var(--sand); }
+  .timeline .section-head p{ color:var(--sand); opacity:0.65; }
+
+  .t-list{
+    display:flex;
+    flex-direction:column;
+  }
+  .t-item{
+    display:grid;
+    grid-template-columns:70px 1fr 1.4fr;
+    gap:32px;
+    padding:30px 0;
+    border-top:1px solid rgba(246,241,231,0.18);
+    align-items:baseline;
+  }
+  .t-item:last-child{ border-bottom:1px solid rgba(246,241,231,0.18); }
+  .t-item .t-index{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:22px;
+    color:var(--clay);
+  }
+  .t-item .t-year{ font-size:16px; opacity:0.7; }
+  .t-item .t-text{ font-size:17px; max-width:56ch; }
+
+  /* ---------- voices ---------- */
+  .voices{
+    position:relative;
+    padding:110px 0;
+    z-index:1;
+  }
+  .voice-block{
+    display:grid;
+    grid-template-columns:0.4fr 1.6fr;
+    gap:50px;
+    padding:44px 0;
+    border-top:1px solid var(--line);
+    align-items:start;
+  }
+  .voice-block:last-child{ border-bottom:1px solid var(--line); }
+  .voice-who{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .voice-who .v-name{
+    font-family:'Fraunces', serif;
+    font-size:19px;
+  }
+  .voice-who .v-role{
+    font-size:13.5px;
+    color:var(--tan);
+  }
+  .voice-quote{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:clamp(20px, 2.4vw, 27px);
+    line-height:1.5;
+    max-width:44ch;
+    color:var(--ink);
+  }
+  .voice-block:nth-child(even) .voice-quote{ color:var(--fern-deep); }
+
+  /* ---------- cities ---------- */
+  .cities{
+    position:relative;
+    padding:100px 0;
+    background:var(--sand-deep);
+    z-index:1;
+  }
+  .city-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    margin-top:20px;
+  }
+  .city-cell{
+    background:var(--sand-deep);
+    padding:28px 24px;
+    transition:background 0.2s ease;
+  }
+  .city-cell:hover{ background:rgba(124,154,92,0.12); }
+  .city-cell .c-name{
+    font-family:'Fraunces', serif;
+    font-size:20px;
+    margin-bottom:6px;
+  }
+  .city-cell .c-meta{
+    font-size:13.5px;
+    color:var(--tan);
+  }
+
+  /* ---------- faq ---------- */
+  .faq{
+    position:relative;
+    padding:55px 0;
+    z-index:1;
+  }
+  .faq-list{ max-width:780px; }
+  .faq-item{
+    border-top:1px solid var(--line);
+  }
+  .faq-item:last-child{ border-bottom:1px solid var(--line); }
+  .faq-q{
+    width:100%;
+    background:none;
+    border:none;
+    text-align:left;
+    font-family:'Fraunces', serif;
+    font-size:19px;
+    color:var(--ink);
+    padding:26px 0;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:24px;
+  }
+  .faq-q .plus{
+    flex-shrink:0;
+    width:22px;
+    height:22px;
+    position:relative;
+  }
+  .faq-q .plus::before, .faq-q .plus::after{
+    content:'';
+    position:absolute;
+    background:var(--fern-deep);
+    transition:transform 0.3s ease, opacity 0.3s ease;
+  }
+  .faq-q .plus::before{ top:50%; left:0; width:100%; height:1.5px; transform:translateY(-50%); }
+  .faq-q .plus::after{ left:50%; top:0; height:100%; width:1.5px; transform:translateX(-50%); }
+  .faq-item.open .plus::after{ transform:translateX(-50%) rotate(90deg); opacity:0; }
+
+  .faq-a{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.35s ease;
+  }
+  .faq-a p{
+    padding-bottom:26px;
+    font-size:16px;
+    max-width:60ch;
+    opacity:0.8;
+  }
+
+  .join{
+    position:relative;
+    padding:65px 0;
+    z-index:1;
+  }
+  .join-inner{
+    display:grid;
+    grid-template-columns:1fr 0.9fr;
+    gap:70px;
+    align-items:center;
+  }
+  .join h2{
+    font-size:clamp(32px, 4.4vw, 52px);
+    line-height:1.08;
+    max-width:13ch;
+  }
+  .join p{
+    margin-top:20px;
+    font-size:17px;
+    max-width:42ch;
+    opacity:0.78;
+  }
+
+  .form-card{
+    background:var(--sand-deep);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:44px;
+  }
+  .form-card label{
+    display:block;
+    font-size:13.5px;
+    color:var(--tan);
+    margin-bottom:8px;
+  }
+  .form-field{ margin-bottom:22px; }
+  .form-field input{
+    width:100%;
+    background:transparent;
+    border:none;
+    border-bottom:1px solid var(--line);
+    padding:10px 2px;
+    font-family:'Inter', sans-serif;
+    font-size:16px;
+    color:var(--ink);
+  }
+  .form-field input::placeholder{ color:rgba(43,42,31,0.35); }
+  .form-field input:focus{ outline:none; border-bottom-color:var(--fern-deep); }
+
+  .form-submit{
+    width:100%;
+    background:var(--ink);
+    color:var(--sand);
+    border:none;
+    padding:16px;
+    border-radius:100px;
+    font-family:'Inter', sans-serif;
+    font-size:15.5px;
+    font-weight:500;
+    cursor:pointer;
+    margin-top:10px;
+    transition:background 0.25s ease;
+  }
+  .form-submit:hover{ background:var(--fern-deep); }
+  .form-note{ font-size:12.5px; color:var(--tan); margin-top:16px; text-align:center; }
+
+  /* ---------- footer ---------- */
+  footer{
+    position:relative;
+    background:var(--ink);
+    color:var(--sand);
+    padding:80px 0 34px;
+    overflow:hidden;
+  }
+  .footer-grid{
+    display:grid;
+    grid-template-columns:1.2fr 0.8fr 0.8fr 0.8fr;
+    gap:40px;
+    padding-bottom:60px;
+    border-bottom:1px solid rgba(246,241,231,0.14);
+  }
+  .footer-brand .logo{ color:var(--sand); margin-bottom:18px; }
+  .footer-brand p{ font-size:14.5px; opacity:0.6; max-width:32ch; }
+  .footer-col h4{
+    font-size:13px;
+    color:var(--tan);
+    font-weight:500;
+    margin-bottom:16px;
+    font-family:'Inter', sans-serif;
+  }
+  .footer-col a{
+    display:block;
+    font-size:14.5px;
+    opacity:0.72;
+    margin-bottom:11px;
+    transition:opacity 0.2s ease;
+  }
+  .footer-col a:hover{ opacity:1; }
+  .footer-bottom{
+    display:flex;
+    justify-content:space-between;
+    padding-top:28px;
+    font-size:13px;
+    opacity:0.5;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+
+  .footer-roots{
+    position:absolute;
+    bottom:-10px;
+    right:-40px;
+    width:340px;
+    opacity:0.5;
+    pointer-events:none;
+  }
+
+  /* ---------- фото-плейсхолдеры ---------- */
+  .img-placeholder{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+      repeating-linear-gradient(135deg, rgba(43,42,31,0.06) 0px, rgba(43,42,31,0.06) 2px, transparent 2px, transparent 14px),
+      var(--sand-deep);
+    border:1.5px dashed var(--line);
+    border-radius:14px;
+    overflow:hidden;
+    color:var(--tan);
+    text-align:center;
+  }
+  .img-placeholder .ph-inner{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    padding:20px;
+  }
+  .img-placeholder svg{
+    width:34px;
+    height:34px;
+    opacity:0.55;
+  }
+  .img-placeholder .ph-label{
+    font-family:'Inter', sans-serif;
+    font-size:13px;
+    font-weight:500;
+    color:var(--tan);
+    letter-spacing:0.01em;
+  }
+  .img-placeholder .ph-size{
+    font-family:'Inter', sans-serif;
+    font-size:11.5px;
+    color:var(--tan);
+    opacity:0.75;
+  }
+  .img-placeholder .ph-img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .img-placeholder .ph-img ~ .ph-inner{ display:none; }
+
+  .hero-photo.img-placeholder{
+    margin-top:40px;
+    aspect-ratio:16/9;
+    width:100%;
+  }
+
+  .manifest-photo.img-placeholder{
+    aspect-ratio:4/5;
+    width:100%;
+    margin-bottom:24px;
+  }
+
+  .t-item{ position:relative; }
+  .t-photo.img-placeholder{
+    aspect-ratio:16/10;
+    width:100%;
+    margin-top:14px;
+    grid-column:1 / -1;
+  }
+
+  .voice-photo.img-placeholder{
+    width:64px;
+    height:64px;
+    border-radius:50%;
+    flex-shrink:0;
+    margin-right:16px;
+  }
+  .voice-photo.img-placeholder svg{ width:22px; height:22px; }
+  .voice-photo.img-placeholder .ph-label,
+  .voice-photo.img-placeholder .ph-size{ display:none; }
+  .voice-who-row{
+    display:flex;
+    align-items:center;
+    margin-bottom:14px;
+  }
+
+  .cities-photo.img-placeholder{
+    aspect-ratio:21/9;
+    width:100%;
+    margin-bottom:36px;
+  }
+
+  @media (max-width:1050px){
+    .t-photo.img-placeholder{ aspect-ratio:16/11; }
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:1050px){
+    .wrap{ padding:0 24px; }
+    .nav-links{
+      position:fixed;
+      top:0; left:0; right:0;
+      height:100vh;
+      height:100dvh;
+      width:100%;
+      background:var(--sand);
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      padding:88px 32px 32px;
+      gap:0;
+      transform:translateX(100%);
+      transition:transform 0.35s ease;
+      z-index:20;
+      box-shadow:-10px 0 30px rgba(0,0,0,0.08);
+      overflow-y:auto;
+    }
+    .nav-links.open{ transform:translateX(0); }
+    .nav-links a:not(.nav-logo-mobile):not(.nav-cta-mobile){
+      font-size:clamp(18px, 5vh, 24px);
+      font-family:'Fraunces', serif;
+      font-weight:500;
+      padding:clamp(8px, 2vh, 17px) 0;
+      border-bottom:1px solid var(--line);
+      flex-shrink:1;
+    }
+    .nav-links a[href="#join"]:not(.nav-cta-mobile){
+      border-bottom:none;
+    }
+    .nav-links .nav-logo-mobile{
+      position:absolute;
+      top:20px; left:24px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-family:'Fraunces', serif;
+      font-size:22px;
+      font-weight:600;
+      color:var(--ink);
+      margin-bottom:0;
+    }
+    .nav-links .nav-logo-mobile svg{ width:26px; height:26px; }
+    .nav-cta{ display:none; }
+    .nav-links .nav-cta-mobile{
+      display:inline-block;
+      background:var(--moss-deep);
+      color:var(--sand);
+      padding:14px 26px;
+      border-radius:100px;
+      width:fit-content;
+      margin-top:clamp(12px, 3vh, 24px);
+      flex-shrink:0;
+      font-size:17px;
+    }
+    .nav-toggle{
+      display:flex;
+      flex-direction:column;
+      gap:5px;
+      background:none;
+      border:none;
+      cursor:pointer;
+      z-index:30;
+      padding:6px;
+    }
+    .nav-toggle span{
+      width:22px; height:1.6px;
+      background:var(--ink);
+      transition:transform 0.25s ease, opacity 0.25s ease;
+    }
+    .nav-toggle.open span:nth-child(1){ transform:translateY(6.6px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2){ opacity:0; }
+    .nav-toggle.open span:nth-child(3){ transform:translateY(-6.6px) rotate(-45deg); }
+
+    .hero-grid{ grid-template-columns:1fr; gap:50px; }
+    .hero h1{ max-width:none; font-size:clamp(36px, 9vw, 48px); }
+    .hero-fact{ border-left:none; border-top:1px solid var(--line); padding:26px 0 0; }
+    .manifest-grid{ grid-template-columns:1fr; gap:40px; }
+    .manifest h2{ max-width:none; font-size:clamp(28px, 8vw, 36px); }
+    .principle-row{ grid-template-columns:1fr; gap:10px; }
+    .principle-row .p-name{ margin-bottom:4px; }
+    .section-head{ flex-direction:column; align-items:flex-start; gap:16px; }
+    .section-head h2{ max-width:none; font-size:clamp(28px, 8vw, 36px); }
+    .t-item{ grid-template-columns:1fr; gap:8px; }
+    .voice-block{ grid-template-columns:1fr; gap:16px; }
+    .city-grid{ grid-template-columns:repeat(2, 1fr); }
+    .join-inner{ grid-template-columns:1fr; gap:44px; }
+    .form-card{ padding:30px; }
+    .footer-grid{ grid-template-columns:1fr 1fr; gap:36px; }
+    .footer-roots{ display:none; }
+  }
+
+  @media (max-width:520px){
+    body{ font-size:16px; }
+    .hero{ padding:90px 0 60px; }
+    .footer-grid{ grid-template-columns:1fr; }
+    .city-grid{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body class="is-loading">
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<div class="preloader" id="preloader" role="status" aria-label="Страница загружается">
+  <div class="preloader-inner">
+    <svg class="preloader-mark" viewBox="0 0 64 88" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path class="p-trunk" d="M32 4 C32 4 32 40 32 50 C32 64 24 68 18 80"/>
+      <path class="p-branch p-branch-a" d="M32 50 C32 50 40 54 41 64 C41.5 70 39 74 39 74"/>
+      <path class="p-branch p-branch-b" d="M28 26 C28 26 19 24 16 15"/>
+      <path class="p-bud" d="M16 15 C19 12 23 13 24 16 C21 20 17 19 16 15 Z"/>
+    </svg>
+    <div class="preloader-word">Корни</div>
+    <div class="preloader-track"></div>
+  </div>
+</div>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="logo" aria-label="Корни — на главную">
+      <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M13 2C13 2 13 12 13 15C13 19 9 20 6 24" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M13 15C13 15 16 17 16 21C16 23 15 24 15 24" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M13 9C13 9 9 8 8 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M13 9C13 9 17 8 18 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+      Корни
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="#top" class="nav-logo-mobile" aria-label="Корни — на главную">
+        <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M13 2C13 2 13 12 13 15C13 19 9 20 6 24" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M13 15C13 15 16 17 16 21C16 23 15 24 15 24" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M13 9C13 9 9 8 8 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M13 9C13 9 17 8 18 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        Корни
+      </a>
+      <a href="#manifest">Манифест</a>
+      <a href="#principles">Привычки</a>
+      <a href="#timeline">Что сделано</a>
+      <a href="#voices">Голоса</a>
+      <a href="#cities">Города</a>
+      <a href="#faq">Вопросы</a>
+      <a href="#join">Участвовать</a>
+      <a href="#join" class="nav-cta-mobile">Присоединиться</a>
+    </nav>
+
+    <a href="#join" class="nav-cta">Присоединиться</a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Открыть меню" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <svg class="root-vein" viewBox="0 0 1180 640" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M -20 40 C 200 60, 260 160, 420 190 C 600 220, 640 320, 560 420 C 500 500, 420 520, 380 600"/>
+      <path class="leaf-node" d="M 420 190 C 440 172, 462 174, 470 190 C 462 206, 440 206, 420 190 Z"/>
+      <path class="leaf-node" d="M 560 420 C 584 406, 604 412, 610 428 C 600 444, 578 442, 560 420 Z"/>
+      <path class="leaf-node" d="M 190 55 C 210 38, 232 42, 238 58 C 228 74, 206 72, 190 55 Z"/>
+    </svg>
+    <div class="wrap hero-grid">
+      <div>
+        <h1><span class="hero-line"><span class="hero-line-inner">Планета — это не&nbsp;фон.</span></span><span class="hero-line"><span class="hero-line-inner">Это то, где мы&nbsp;живём.</span></span></h1>
+        <p class="lede">«Корни» — сообщество людей, которые перестали делать вид, что мусор исчезает сам. Мы меняем бытовые привычки, убираем за собой и учим других замечать, что оставляют после себя.</p>
+        <div class="hero-actions">
+          <a href="#join" class="btn-primary">Присоединиться к «Корням»</a>
+          <a href="#manifest" class="btn-ghost">Прочитать манифест</a>
+        </div>
+      </div>
+      <div class="hero-fact">
+        <div class="num"><span id="heroCounter">0</span>&nbsp;кг</div>
+        <p>мусора в среднем оставляет один городской житель за неделю. Мы помогаем сократить это число — по-настоящему, а не на бумаге.</p>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="hero-photo img-placeholder">
+        <img class="ph-img" src="img/1.png" alt="Участники движения на уборке" onerror="this.remove()">
+        <div class="ph-inner">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5.5-5.5a1 1 0 0 0-1.4 0L4 20"/></svg>
+          <div class="ph-label">Фото: участники движения на уборке</div>
+          <div class="ph-size">рекомендуемый размер 1600×900</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANIFEST -->
+  <section class="manifest" id="manifest">
+    <div class="wrap manifest-grid">
+      <div>
+        <div class="manifest-label reveal-tag">Манифест</div>
+        <h2 class="reveal-words">Мы не спасаем планету лозунгами</h2>
+      </div>
+      <div class="manifest-body">
+        <div class="manifest-photo img-placeholder">
+          <img class="ph-img" src="img/2.png" alt="Сортировка отходов дома" onerror="this.remove()">
+          <div class="ph-inner">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5.5-5.5a1 1 0 0 0-1.4 0L4 20"/></svg>
+            <div class="ph-label">Фото: сортировка отходов дома</div>
+            <div class="ph-size">рекомендуемый размер 800×1000</div>
+          </div>
+        </div>
+        <p class="reveal-words">Планета не просила красивых слов — ей нужно, чтобы после пикника не осталось пакетов, чтобы батарейка не оказалась в обычном ведре, чтобы вещь донашивали, а не выбрасывали при первой царапине.</p>
+        <p class="reveal-fade">Мы убеждены: экология начинается не с глобальных решений, а с одного точного действия — там, где вы стоите прямо сейчас. Поднять чужой окурок с газона. Донести обёртку до урны через два квартала. Отказаться от одиннадцатого пакета в магазине.</p>
+        <p class="reveal-fade">«Корни» не продают чувство вины. Мы показываем, что маленькое действие, повторённое тысячами людей, меняет ландшафт — в буквальном смысле. Это сайт не бренда, который что-то продаёт. Это движение людей, которые решили перестать закрывать глаза.</p>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="callout reveal-stagger">
+        <div>
+          <div class="num">14&nbsp;городов</div>
+          <p>уже проводят регулярные уборки вместе с нашим сообществом</p>
+        </div>
+        <div>
+          <div class="num">3&nbsp;года</div>
+          <p>мы собираем данные о том, какие привычки реально работают</p>
+        </div>
+        <div>
+          <div class="num">0&nbsp;₽</div>
+          <p>стоит участие — движению не нужны ваши деньги, только время</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRINCIPLES -->
+  <section class="principles" id="principles">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="reveal-words">Четыре привычки, с которых всё начинается</h2>
+        <p class="reveal-fade">Не абстрактная «забота о планете», а конкретные действия, которые можно начать сегодня вечером.</p>
+      </div>
+
+      <div class="principle-row reveal-row" style="transition-delay:0s">
+        <div class="p-name">Разделяй</div>
+        <div class="p-desc">Сортировка — это не бюрократия, а способ дать вещи второй путь вместо мусорного полигона.</div>
+        <div class="p-detail">Начните с одной категории: стекло или бумага. Остальное добавится само, когда войдёт в привычку.</div>
+      </div>
+
+      <div class="principle-row reveal-row" style="transition-delay:0.08s">
+        <div class="p-name">Донашивай</div>
+        <div class="p-desc">Одежда, посуда, техника живут дольше, чем кажется на этикетке производителя.</div>
+        <div class="p-detail">Ремонт вместо покупки — самое недооценённое экологичное действие в городе.</div>
+      </div>
+
+      <div class="principle-row reveal-row" style="transition-delay:0.16s">
+        <div class="p-name">Отказывайся</div>
+        <div class="p-desc">Пакет, который не взяли — не пакет, который переработали позже.</div>
+        <div class="p-detail">Своя сумка, своя бутылка, своя кружка — три предмета закрывают большую часть повседневного мусора.</div>
+      </div>
+
+      <div class="principle-row reveal-row" style="transition-delay:0.24s">
+        <div class="p-name">Убирай</div>
+        <div class="p-desc">Не только за собой — иногда и за тем, кто прошёл раньше и не заметил.</div>
+        <div class="p-detail">Пятнадцать минут в парке по пути домой — и маршрут выглядит иначе для всех, кто пройдёт следом.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="timeline" id="timeline">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="reveal-words">Что уже сделано, а не обещано</h2>
+        <p class="reveal-fade">Хронология — потому что легче поверить в движение, у которого есть история, а не только манифест.</p>
+      </div>
+
+      <div class="t-list">
+        <div class="t-item reveal-row" style="transition-delay:0s">
+          <div class="t-index">01</div>
+          <div class="t-year">2023</div>
+          <div class="t-text">Первая уборка силами двенадцати человек на набережной — с неё началось всё остальное.</div>
+          <div class="t-photo img-placeholder">
+            <img class="ph-img" src="img/3.png" alt="Первая уборка на набережной, 2023" onerror="this.remove()">
+            <div class="ph-inner">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5.5-5.5a1 1 0 0 0-1.4 0L4 20"/></svg>
+              <div class="ph-label">Фото: первая уборка на набережной, 2023</div>
+              <div class="ph-size">рекомендуемый размер 1280×800</div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item reveal-row" style="transition-delay:0.08s">
+          <div class="t-index">02</div>
+          <div class="t-year">2024</div>
+          <div class="t-text">Запущена сеть локальных координаторов в шести городах — движение перестало держаться на одном человеке.</div>
+          <div class="t-photo img-placeholder">
+            <img class="ph-img" src="img/4.png" alt="Встреча координаторов, 2024" onerror="this.remove()">
+            <div class="ph-inner">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5.5-5.5a1 1 0 0 0-1.4 0L4 20"/></svg>
+              <div class="ph-label">Фото: встреча координаторов, 2024</div>
+              <div class="ph-size">рекомендуемый размер 1280×800</div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item reveal-row" style="transition-delay:0.16s">
+          <div class="t-index">03</div>
+          <div class="t-year">2025</div>
+          <div class="t-text">Совместно с локальными школами провели курс из трёх занятий о раздельном сборе для 40 классов.</div>
+          <div class="t-photo img-placeholder">
+            <img class="ph-img" src="img/5.png" alt="Занятие в школе, 2025" onerror="this.remove()">
+            <div class="ph-inner">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5.5-5.5a1 1 0 0 0-1.4 0L4 20"/></svg>
+              <div class="ph-label">Фото: занятие в школе, 2025</div>
+              <div class="ph-size">рекомендуемый размер 1280×800</div>
+            </div>
+          </div>
+        </div>
+        <div class="t-item reveal-row" style="transition-delay:0.24s">
+          <div class="t-index">04</div>
+          <div class="t-year">2026</div>
+          <div class="t-text">14 городов, регулярные встречи каждую субботу и первая открытая база данных по собранному мусору.</div>
+          <div class="t-photo img-placeholder">
+            <img class="ph-img" src="img/6.png" alt="Субботняя встреча, 2026" onerror="this.remove()">
+            <div class="ph-inner">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5.5-5.5a1 1 0 0 0-1.4 0L4 20"/></svg>
+              <div class="ph-label">Фото: субботняя встреча, 2026</div>
+              <div class="ph-size">рекомендуемый размер 1280×800</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VOICES -->
+  <section class="voices" id="voices">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="reveal-words">Голоса тех, кто уже с нами</h2>
+        <p class="reveal-fade">Не отзывы для маркетинга — реальные слова людей, которые начали с одной привычки.</p>
+      </div>
+
+      <div class="voice-block reveal-row" style="transition-delay:0s">
+        <div class="voice-who-row">
+          <div class="voice-photo img-placeholder">
+            <img class="ph-img" src="img/7.png" alt="Марина" onerror="this.remove()">
+            <div class="ph-inner">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg>
+            </div>
+          </div>
+          <div class="voice-who">
+            <div class="v-name">Марина, 34 года</div>
+            <div class="v-role">Екатеринбург, с движением 2 года</div>
+          </div>
+        </div>
+        <div class="voice-quote">Я не думала, что перестану пользоваться пакетами за месяц. Оказалось, дело не в силе воли, а в том, чтобы просто класть сумку у двери.</div>
+      </div>
+
+      <div class="voice-block reveal-row" style="transition-delay:0.1s">
+        <div class="voice-who-row">
+          <div class="voice-photo img-placeholder">
+            <img class="ph-img" src="img/8.png" alt="Дамир" onerror="this.remove()">
+            <div class="ph-inner">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg>
+            </div>
+          </div>
+          <div class="voice-who">
+            <div class="v-name">Дамир, 27 лет</div>
+            <div class="v-role">Казань, координатор встреч</div>
+          </div>
+        </div>
+        <div class="voice-quote">Первую уборку я организовал для трёх друзей. Через полгода на набережную приходило по сорок человек — и никто не звал их специально.</div>
+      </div>
+
+      <div class="voice-block reveal-row" style="transition-delay:0.2s">
+        <div class="voice-who-row">
+          <div class="voice-photo img-placeholder">
+            <img class="ph-img" src="img/9.png" alt="Ольга" onerror="this.remove()">
+            <div class="ph-inner">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg>
+            </div>
+          </div>
+          <div class="voice-who">
+            <div class="v-name">Ольга, 51 год</div>
+            <div class="v-role">Новосибирск, с движением 8 месяцев</div>
+          </div>
+        </div>
+        <div class="voice-quote">Мне казалось, что раздельный сбор — это для молодых и городских. Сейчас у меня три ведра на кухне, и это заняло меньше времени, чем я боялась.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CITIES -->
+  <section class="cities" id="cities">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="reveal-words">Где уже можно прийти на встречу</h2>
+        <p class="reveal-fade">Каждую субботу — где-то из этого списка. Расписание уточняется в форме ниже.</p>
+      </div>
+
+      <div class="cities-photo img-placeholder">
+        <img class="ph-img" src="img/10.png" alt="Карта встреч или коллаж городов" onerror="this.remove()">
+        <div class="ph-inner">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5.5-5.5a1 1 0 0 0-1.4 0L4 20"/></svg>
+          <div class="ph-label">Фото: карта встреч или коллаж городов</div>
+          <div class="ph-size">рекомендуемый размер 1600×686</div>
+        </div>
+      </div>
+
+      <div class="city-grid">
+        <div class="city-cell reveal-city" style="transition-delay:0.02s">
+          <div class="c-name">Москва</div>
+          <div class="c-meta">4 точки сбора</div>
+        </div>
+        <div class="city-cell reveal-city" style="transition-delay:0.08s">
+          <div class="c-name">Санкт-Петербург</div>
+          <div class="c-meta">3 точки сбора</div>
+        </div>
+        <div class="city-cell reveal-city" style="transition-delay:0.14s">
+          <div class="c-name">Казань</div>
+          <div class="c-meta">2 точки сбора</div>
+        </div>
+        <div class="city-cell reveal-city" style="transition-delay:0.20s">
+          <div class="c-name">Екатеринбург</div>
+          <div class="c-meta">2 точки сбора</div>
+        </div>
+        <div class="city-cell reveal-city" style="transition-delay:0.26s">
+          <div class="c-name">Новосибирск</div>
+          <div class="c-meta">1 точка сбора</div>
+        </div>
+        <div class="city-cell reveal-city" style="transition-delay:0.32s">
+          <div class="c-name">Нижний Новгород</div>
+          <div class="c-meta">1 точка сбора</div>
+        </div>
+        <div class="city-cell reveal-city" style="transition-delay:0.38s">
+          <div class="c-name">Краснодар</div>
+          <div class="c-meta">1 точка сбора</div>
+        </div>
+        <div class="city-cell reveal-city" style="transition-delay:0.44s">
+          <div class="c-name">Ваш город</div>
+          <div class="c-meta">станьте первым координатором</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="reveal-words">Вопросы, которые задают чаще всего</h2>
+        <p class="reveal-fade">Если ответа здесь нет — спросите в форме, ответим лично.</p>
+      </div>
+
+      <div class="faq-list reveal-stagger">
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Нужно ли платить за участие?
+            <span class="plus"></span>
+          </button>
+          <div class="faq-a">
+            <p>Нет. «Корни» — некоммерческое движение, мы не продаём подписки и не собираем взносы. Единственное, что нужно — время на встречи или на пару привычек в быту.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Что если в моём городе ещё нет координатора?
+            <span class="plus"></span>
+          </button>
+          <div class="faq-a">
+            <p>Тогда им можете стать вы. Мы присылаем короткое руководство и на связи с первой встречей — обычно достаточно трёх-пяти человек, чтобы начать.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            А если у меня совсем нет свободного времени?
+            <span class="plus"></span>
+          </button>
+          <div class="faq-a">
+            <p>Тогда начните без встреч — с одной из четырёх привычек, о которых мы рассказали выше. Даже без единого похода на уборку это уже меняет ваш ежедневный след.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Как вы используете данные о собранном мусоре?
+            <span class="plus"></span>
+          </button>
+          <div class="faq-a">
+            <p>База открыта — ей пользуются локальные администрации и другие инициативы, чтобы понимать, где грязнее всего и почему. Никаких личных данных участников там нет.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOIN -->
+  <section class="join" id="join">
+    <div class="wrap join-inner">
+      <div>
+        <h2 class="reveal-words">Начать проще, чем кажется</h2>
+        <p class="reveal-fade">Оставьте контакты — мы пришлём, где ближайшая встреча в вашем городе, и с чего лучше начать именно вам.</p>
+      </div>
+
+      <form class="form-card reveal" onsubmit="event.preventDefault(); this.querySelector('.form-submit').textContent='Спасибо, мы на связи'; this.querySelector('.form-submit').disabled=true;">
+        <div class="form-field">
+          <label for="name">Имя</label>
+          <input type="text" id="name" placeholder="Как к вам обращаться" required>
+        </div>
+        <div class="form-field">
+          <label for="city">Город</label>
+          <input type="text" id="city" placeholder="Например, Казань" required>
+        </div>
+        <div class="form-field">
+          <label for="email">Почта или телеграм</label>
+          <input type="text" id="email" placeholder="Куда написать" required>
+        </div>
+        <button type="submit" class="form-submit">Присоединиться</button>
+        <p class="form-note">Без рассылок и спама — только по делу, не чаще раза в месяц.</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <svg class="footer-roots" viewBox="0 0 340 200" fill="none" aria-hidden="true">
+    <path d="M170 0 C170 40, 170 60, 130 90 C 100 112, 90 140, 90 200" stroke="#F6F1E7" stroke-width="1" opacity="0.5"/>
+    <path d="M170 40 C 190 60, 230 70, 250 110 C 265 140, 260 170, 280 200" stroke="#F6F1E7" stroke-width="1" opacity="0.5"/>
+    <path d="M170 20 C 150 45, 120 55, 110 80" stroke="#F6F1E7" stroke-width="1" opacity="0.5"/>
+  </svg>
+
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">Корни</div>
+        <p>Сообщество людей, для которых забота о планете — не лозунг, а список конкретных действий на каждый день.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Движение</h4>
+        <a href="#manifest">Манифест</a>
+        <a href="#principles">Привычки</a>
+        <a href="#timeline">История</a>
+        <a href="#voices">Голоса участников</a>
+      </div>
+      <div class="footer-col">
+        <h4>Участие</h4>
+        <a href="#cities">Города встреч</a>
+        <a href="#join">Присоединиться</a>
+        <a href="#faq">Частые вопросы</a>
+        <a href="#join">Стать координатором</a>
+      </div>
+      <div class="footer-col">
+        <h4>Контакты</h4>
+        <a href="mailto:privet@korni.eco">privet@korni.eco</a>
+        <a href="#top">Telegram-канал</a>
+        <a href="#top">Instagram</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 «Корни». Некоммерческое движение.</span>
+      <span>Сделано с заботой о том, что будет после нас</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ---------- счётчик в hero (2,6 кг) ---------- */
+  function startHeroCounter(){
+    const el = document.getElementById('heroCounter');
+    if(!el) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(prefersReducedMotion){ el.textContent = '2,6'; return; }
+
+    const target = 2.6;
+    const duration = 1400;
+    const startDelay = 750; // синхронизировано с transition-delay hero-fact
+    const startTime = performance.now() + startDelay;
+
+    function tick(now){
+      const elapsed = now - startTime;
+      if(elapsed < 0){
+        requestAnimationFrame(tick);
+        return;
+      }
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = (target * eased).toFixed(1).replace('.', ',');
+      el.textContent = value;
+      if(progress < 1){
+        requestAnimationFrame(tick);
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  (function(){
+    const header = document.querySelector('header');
+    const SCROLL_THRESHOLD = 40;
+
+    function updateHeader(){
+      if(window.scrollY > SCROLL_THRESHOLD){
+        header.classList.add('is-scrolled');
+      } else {
+        header.classList.remove('is-scrolled');
+      }
+    }
+
+    updateHeader();
+    window.addEventListener('scroll', updateHeader, { passive:true });
+  })();
+
+  (function(){
+    const preloader = document.getElementById('preloader');
+    const root = document.documentElement;
+    const MIN_VISIBLE = 2500; // время, чтобы анимация корня успела доиграть (последний штрих в 2.2s + пауза)
+    const shownAt = Date.now();
+    let released = false;
+
+    function release(){
+      if(released) return;
+      released = true;
+      preloader.classList.add('is-hidden');
+      root.classList.remove('is-loading');
+      preloader.addEventListener('transitionend', () => preloader.remove(), { once:true });
+      setTimeout(() => preloader.remove(), 900);
+      startHeroCounter();
+    }
+
+    function ready(){
+      const elapsed = Date.now() - shownAt;
+      const wait = Math.max(MIN_VISIBLE - elapsed, 0);
+      setTimeout(release, wait);
+    }
+
+    if(document.readyState === 'complete'){
+      ready();
+    } else {
+      window.addEventListener('load', ready);
+    }
+    // страховка на случай медленных внешних ресурсов (шрифты и т.п.)
+    setTimeout(release, 4500);
+  })();
+
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+    document.querySelector('header').classList.toggle('menu-open', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      document.querySelector('header').classList.remove('menu-open');
+    });
+  });
+
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const btn = item.querySelector('.faq-q');
+    const answer = item.querySelector('.faq-a');
+    btn.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(openItem => {
+        if(openItem !== item){
+          openItem.classList.remove('open');
+          openItem.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+          openItem.querySelector('.faq-a').style.maxHeight = null;
+        }
+      });
+      item.classList.toggle('open', !isOpen);
+      btn.setAttribute('aria-expanded', String(!isOpen));
+      answer.style.maxHeight = !isOpen ? answer.scrollHeight + 'px' : null;
+    });
+  });
+
+  /* ---------- подготовка пословной анимации текста ---------- */
+  (function(){
+    // .reveal-words — оборачивает каждое слово в span для последовательного
+    // появления. Перенос строк остаётся полностью на усмотрение браузера
+    // (обычный текстовый word-wrap), поэтому здесь ничего не измеряется и
+    // не может "разъехаться" из-за шрифтов/ширины экрана/резайза.
+    function wrapWords(el){
+      const words = el.textContent.trim().split(/\s+/);
+      el.innerHTML = words.map((w, i) =>
+        `<span class="word" style="transition-delay:${Math.min(i * 0.035, 0.9)}s">${w}</span>`
+      ).join(' ');
+    }
+
+    document.querySelectorAll('.reveal-words').forEach(wrapWords);
+  })();
+
+  /* ---------- reveal on scroll ---------- */
+  (function(){
+    const targets = document.querySelectorAll('.reveal, .reveal-stagger, .reveal-row, .reveal-scale, .reveal-fade, .reveal-words, .reveal-tag, .reveal-card, .reveal-city');
+    if(!targets.length) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(prefersReducedMotion || !('IntersectionObserver' in window)){
+      targets.forEach(el => el.classList.add('is-visible'));
+      return;
+    }
+
+    function activate(el){
+      el.classList.add('is-visible');
+      // для карточек городов — убрать вспышку фона после того, как она проиграла
+      if(el.classList.contains('reveal-city')){
+        setTimeout(() => el.classList.add('flash-done'), 900);
+      }
+    }
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          activate(entry.target);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.1, rootMargin:'0px 0px -10% 0px' });
+
+    targets.forEach(el => io.observe(el));
+
+    // страховка: если IntersectionObserver почему-то не сработал для блока,
+    // который уже находится в зоне видимости прямо сейчас — показать его.
+    // Элементы НИЖЕ по странице сюда не попадают и дожидаются своей анимации при скролле.
+    setTimeout(() => {
+      const vh = window.innerHeight;
+      targets.forEach(el => {
+        if(el.classList.contains('is-visible')) return;
+        const rect = el.getBoundingClientRect();
+        if(rect.top < vh && rect.bottom > 0){
+          activate(el);
+          io.unobserve(el);
+        }
+      });
+    }, 1500);
+  })();
+
+  /* ---------- индикатор прогресса прочтения страницы ---------- */
+  (function(){
+    const bar = document.getElementById('scrollProgress');
+    if(!bar) return;
+
+    function updateProgress(){
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      bar.style.width = pct + '%';
+    }
+
+    updateProgress();
+    window.addEventListener('scroll', updateProgress, { passive:true });
+    window.addEventListener('resize', updateProgress);
+  })();
+
+  /* ---------- лёгкий параллакс для корней в hero при скролле ---------- */
+  (function(){
+    const vein = document.querySelector('.hero .root-vein');
+    const hero = document.querySelector('.hero');
+    if(!vein || !hero) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(prefersReducedMotion) return;
+
+    let scrollOffset = 0;
+    let mouseX = 0;
+    let mouseY = 0;
+    let ticking = false;
+
+    function applyTransform(){
+      vein.style.transform = `translate(${mouseX}px, ${scrollOffset + mouseY}px)`;
+      ticking = false;
+    }
+
+    function queueUpdate(){
+      if(!ticking){
+        window.requestAnimationFrame(applyTransform);
+        ticking = true;
+      }
+    }
+
+    function updateParallax(){
+      const heroHeight = hero.offsetHeight;
+      const offset = Math.min(window.scrollY, heroHeight);
+      scrollOffset = offset * 0.18;
+      queueUpdate();
+    }
+
+    // лёгкое смещение корней вслед за курсором (только на устройствах с точным указателем)
+    const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
+    if(hasFinePointer){
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        const relX = (e.clientX - rect.left) / rect.width - 0.5;
+        const relY = (e.clientY - rect.top) / rect.height - 0.5;
+        mouseX = relX * 16;
+        mouseY = relY * 12;
+        queueUpdate();
+      }, { passive:true });
+
+      hero.addEventListener('mouseleave', () => {
+        mouseX = 0;
+        mouseY = 0;
+        queueUpdate();
+      }, { passive:true });
+    }
+
+    window.addEventListener('scroll', updateParallax, { passive:true });
+  })();
+</script>
+
+</body>
+</html>
